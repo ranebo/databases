@@ -13,13 +13,15 @@ USE chat;
 CREATE TABLE Users (
   id INT(11) NOT NULL AUTO_INCREMENT,
   username VARCHAR(20) NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE KEY (username)
 );
 
 CREATE TABLE Roomnames (
   id INT(11) NOT NULL AUTO_INCREMENT,
   roomname VARCHAR(20) NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE KEY (roomname)
 );
 
 CREATE TABLE Messages (
