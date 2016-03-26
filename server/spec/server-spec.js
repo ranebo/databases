@@ -16,11 +16,11 @@ describe('Persistent Node Chat Server', function() {
     });
     dbConnection.connect();
 
-       var tablenameM = "Messages";
+    var tablename = "Messages";
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
-    dbConnection.query('truncate ' + tablenameM, done);
+    dbConnection.query('truncate ' + tablename, done);
   });
 
   afterEach(function() {
@@ -65,11 +65,16 @@ describe('Persistent Node Chat Server', function() {
 
   it('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
-       var queryString = "INSERT INTO Messages (message) VALUES ('Men like you can never change!')";
+       var queryString = "INSERT INTO Messages (message, id_Roomnames, id_Users) VALUES ('Men like you can never change!', 2, 1);";
+       var queryRoomname = "INSERT INTO Roomnames (roomname) VALUES('main')";
        var queryArgs = [];
     // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
     // them up to you. */
+
+    dbConnection.query(queryRoomname, queryArgs, function(err) {
+      if (err) { throw err; }
+    });
 
     dbConnection.query(queryString, queryArgs, function(err) {
       if (err) { throw err; }
@@ -79,7 +84,7 @@ describe('Persistent Node Chat Server', function() {
       request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
         var messageLog = JSON.parse(body);
         expect(messageLog[0].message).to.equal('Men like you can never change!');
-        expect(messageLog[0].id_Roomname).to.equal('main');
+        expect(messageLog[0].roomname).to.equal('main');
         done();
       });
     });
