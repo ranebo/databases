@@ -19,6 +19,7 @@ module.exports = {
     }, // a function which produces all the messages
 
     post: function (data, res) {
+      console.log(data);
       var queryUser = 'INSERT IGNORE INTO Users (username) VALUES (?);';
       db.query(queryUser, [data.username], function(err, results) {
         if (err) {

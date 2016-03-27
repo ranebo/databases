@@ -19,6 +19,12 @@ app.use(morgan('dev'));
 app.use(parser.json());
 
 // Set up our routes
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use('/classes', router);
 
 // Serve the client files
